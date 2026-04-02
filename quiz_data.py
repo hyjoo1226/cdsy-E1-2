@@ -1,0 +1,39 @@
+from models import Quiz
+
+DEFAULT_QUIZZES = [
+    Quiz(
+        quiz_id=1,
+        question="mbti에서 'I'는 무엇을 의미할까요?",
+        choices=["감정적", "외향적", "내향적", "사고적"],
+        answer=3,
+        hint="'I'는 'Introversion'의 약자입니다."
+    ),
+    Quiz(
+        quiz_id=2,
+        question="매슬로우의 욕구 이론 5단계 중 가장 기본적인 욕구는?",
+        choices=["생리적 욕구", "자아실현의 욕구", "사회적 욕구", "안전의 욕구"],
+        answer=1,
+        hint="인간의 생존에 필수적인 식욕, 수면욕, 성욕 등을 포함합니다."
+    ),
+    Quiz(
+        quiz_id=3,
+        question="다음 중 심리검사가 아닌 것은?",
+        choices=["TCI", "MMPI", "MBTI", "Libido"],
+        answer=4,
+        hint="프로이트의 성적 욕망 이론에서 사용되는 용어입니다."
+    ),
+    Quiz(
+        quiz_id=4,
+        question="모호하고 일반적인 성격 묘사가 마치 자신에게만 딱 들어맞는 것처럼 느끼는 현상은?",
+        choices=["링겔만 효과", "바넘 효과", "로젠탈 효과", "플라시보 효과"],
+        answer=2,
+        hint="타로 카드 같은 점술에서 자주 이용되는 심리 현상입니다."
+    ),
+    Quiz(
+        quiz_id=5,
+        question="실패 사례는 무시하고 성공한 사례만 보고 판단하는 경향은?",
+        choices=["부정 편향", "확증 편향", "가용성 휴리스틱", "생존자 편향"],
+        answer=4,
+        hint="예: 전쟁에서 살아남은 군인들의 특징만 분석하여 방어 전략을 세우는 경우"
+    )
+]
