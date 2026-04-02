@@ -1,3 +1,4 @@
+from utils import get_int_input
 class QuizGame:
     # QuizGame 객체 초기화
     def __init__(self):
@@ -22,15 +23,8 @@ class QuizGame:
             # 문제 출력
             quiz.display_quiz(i)
             
-            # 사용자 입력
-            while True:
-                try:
-                    user_input = int(input("\n정답 입력 (1~4): "))
-                    if 1 <= user_input <= 4:
-                        break
-                    print("⚠️ 1~4 사이의 숫자를 입력하세요.")
-                except ValueError:
-                    print("⚠️ 숫자를 입력하세요.")
+            # 사용자 입력 예외처리
+            user_input = get_int_input("\n정답 입력 (1~4): ", 1, 4)
             
             # 정답 확인
             if quiz.is_correct(user_input):

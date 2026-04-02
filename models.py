@@ -1,16 +1,11 @@
 class Quiz:
-    # Quiz 객체 초기화
-        # quiz_id: 문제 고유 ID (int)
-        # question: 문제 내용 (str)
-        # choices: 4개의 선택지 (list of str)
-        # answer: 정답 번호 1~4 (int)
-        # hint: 문제 관련 힌트 (str, optional)        
+    # Quiz 객체 초기화   
     def __init__(self, quiz_id, question, choices, answer, hint=None):
-        self.id = quiz_id
-        self.question = question
-        self.choices = choices
-        self.answer = answer
-        self.hint = hint
+        self.id = quiz_id   # 문제 고유 ID (int)
+        self.question = question    # 문제 내용 (str)
+        self.choices = choices  # 4개의 선택지 (list of str)
+        self.answer = answer    # 정답 번호 1~4 (int)
+        self.hint = hint    # 문제 관련 힌트 (str, optional)
 
     # 문제 출력
         # index: 문제 번호 (int)
