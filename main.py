@@ -11,4 +11,9 @@ def main():
     game.play_quiz()
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n\n프로그램을 종료합니다.")
+    except EOFError:
+        print("\n입력 스트림이 종료되었습니다. 프로그램을 종료합니다.")

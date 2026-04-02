@@ -7,18 +7,20 @@ def get_int_input(prompt, min_val, max_val):
 
             # 빈 입력 처리
             if not user_input:
-                print("값을 입력하세요.")
+                print("값을 입력해주세요.")
                 continue
 
             # 숫자 변환 실패 처리
-            number = int(user_input)
+            temp_number = int(user_input)
 
             # 허용 범위 밖 숫자 처리
-            if not (min_val <= number <= max_val):
-                print(f"{min_val}~{max_val} 사이의 숫자를 입력하세요.")
+            if not (min_val <= temp_number <= max_val):
+                print(f"{min_val}~{max_val} 사이의 숫자를 입력해주세요.")
                 continue
 
-            return number
+            validate_input = temp_number
+
+            return validate_input
 
         except ValueError:
-            print("숫자를 입력하세요.")
+            print("숫자를 입력해주세요.")
