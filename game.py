@@ -13,7 +13,8 @@ class QuizGame:
         self.current_session = {
             "remaining_quizzes": [],  # 아직 안 푼 퀴즈 ID 목록
             "correct_count": 0,       # 현재까지 맞춘 개수
-            "total": 0                # 전체 문제 수
+            "total": 0,                # 전체 문제 수
+            "draft": None              # 퀴즈 추가 중 입력 임시 저장
         }
 
 
@@ -114,41 +115,81 @@ class QuizGame:
         print("\n[ 퀴즈 추가 ]")
         print("=" * 40)
 
-        # 문제 입력
-        while True:
-            question = input("문제를 입력하세요: ").strip()
-            if question:
-                break
-            print("문제를 입력하세요.")
+        # 기존 초안 있으면 불러오기
+        draft = self.current_session.get("draft")
 
-        # 선택지 4개 입력
-        choices = []
-        for i in range(1, 5):
+        if draft:
+            print("📝 작성 중이던 퀴즈가 있습니다.")
+            print(f"질문: {draft.get('question', '(미입력)')}")
+
+            while True:
+                choice = input("이어서 작성할까요? (y/n): ").strip().lower()
+                if choice in ['y', 'n']: break
+                print("⚠️ 'y' 또는 'n'만 입력해주세요.")
+
+            if choice == 'n':
+                self.current_session["draft"] = None
+                self.save_state()
+                draft = None
+
+        if draft is None:
+            draft = {"question": "", "choices": [], "answer": 0, "hint": None }
+
+        # 문제 입력
+        if not draft["question"]:
+            while True:
+                question = input("문제를 입력하세요: ").strip()
+                if question:
+                    draft["question"] = question
+                    self.current_session["draft"] = draft
+                    self.save_state()
+                    break
+                print("문제를 입력하세요.")
+
+        # 선택지 입력
+        while len(draft["choices"]) < 4:
+            i = len(draft["choices"]) + 1
             while True:
                 choice = input(f"선택지 {i}번: ").strip()
                 if choice:
-                    choices.append(choice)
+                    draft["choices"].append(choice)
+                    self.current_session["draft"] = draft
+                    self.save_state()
                     break
-                print("선택지를 입력하세요.")
+                print(f"{i}번 선택지를 입력하세요.")
 
         # 정답 번호 입력
-        answer = get_int_input("정답 번호 (1~4): ", 1, 4)
+        if draft.get("answer") == 0:
+            answer = get_int_input("정답 번호 (1~4): ", 1, 4)
+            draft["answer"] = answer
+            self.current_session["draft"] = draft
+            self.save_state()
 
         # 힌트 입력 (선택사항)
-        hint = input("힌트를 입력하세요 (없으면 Enter): ").strip()
+        if draft.get("hint") is None:
+            hint = input("힌트를 입력하세요 (없으면 Enter): ").strip()
+            draft["hint"] = hint if hint else ""
+            self.current_session["draft"] = draft
+            self.save_state()
 
         # Quiz 객체 생성 후 목록에 추가
-        new_quiz = Quiz(
-            question=question,
-            choices=choices,
-            answer=answer,
-            hint=hint if hint else ""
-        )
-        self.quizzes.append(new_quiz)
-
-        # 파일에 저장
-        self.save_state()
-        print(f"\n퀴즈가 추가되었습니다! (현재 총 {len(self.quizzes)}개)")
+        try:
+            new_quiz = Quiz(
+                question=draft["question"],
+                choices=draft["choices"],
+                answer=draft["answer"],
+                hint=draft["hint"]
+            )
+            self.quizzes.append(new_quiz)
+            
+            # 초안 삭제
+            self.current_session["draft"] = None
+            self.save_state()
+            
+            print(f"\n✅ 퀴즈가 성공적으로 추가되었습니다! (현재 총 {len(self.quizzes)}개)")
+            
+        except Exception as e:
+            print(f"⚠️ 퀴즈 생성 중 오류 발생: {e}")
 
 
     # ==================== 파일 관리 ====================
@@ -162,8 +203,6 @@ class QuizGame:
         
         with open("state.json", "w", encoding="utf-8") as f:
             json.dump(state, f, ensure_ascii=False, indent=4)
-        
-        print("💾 저장되었습니다.")
 
     # 게임 상태 불러오기
     def load_state(self):
@@ -236,7 +275,8 @@ class QuizGame:
                 self.current_session = {
                     "remaining_quizzes": valid_remaining,
                     "correct_count": correct_count,
-                    "total": total
+                    "total": total,
+                    "draft": session.get("draft")
                 }
 
         except (ValueError, TypeError):
@@ -273,7 +313,8 @@ class QuizGame:
         self.current_session = {
             "remaining_quizzes": [],
             "correct_count": 0,
-            "total": 0
+            "total": 0,
+            "draft": None
         }
         # 필요에 따라 초기화 즉시 파일에 저장
         if save:

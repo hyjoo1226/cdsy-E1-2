@@ -1,5 +1,5 @@
 {
-    "best_score": 0,
+    "best_score": 16,
     "quizzes": [
         {
             "id": "7e75d683-a8a3-4ac3-962b-64961c6842c9",
@@ -60,11 +60,60 @@
             ],
             "answer": 4,
             "hint": "예: 전쟁에서 살아남은 군인들의 특징만 분석하여 방어 전략을 세우는 경우"
+        },
+        {
+            "id": "52bd142e-e916-43c2-a991-d1a363c4b940",
+            "question": "213",
+            "choices": [
+                "ㅁㄴㅇ",
+                "ㅁㄴㅇ",
+                "ㅁㄴㅇ",
+                "ㅁㄴㅇ"
+            ],
+            "answer": 1,
+            "hint": "21"
+        },
+        {
+            "id": "c86b28a7-bf03-43e5-86c4-6ac41e7b1dfd",
+            "question": "123",
+            "choices": [
+                "23",
+                "2",
+                "12",
+                "12"
+            ],
+            "answer": 1,
+            "hint": ""
+        },
+        {
+            "id": "d3cfb16b-5659-4513-802a-3ae0ab9b3fde",
+            "question": "ㅁㄴㅇ",
+            "choices": [
+                "2",
+                "3",
+                "1",
+                "4"
+            ],
+            "answer": 2,
+            "hint": ""
+        },
+        {
+            "id": "abebe45a-39d7-494d-917d-a96b9123d080",
+            "question": "12",
+            "choices": [
+                "3",
+                "4",
+                "1",
+                "2"
+            ],
+            "answer": 3,
+            "hint": ""
         }
     ],
     "current_session": {
         "remaining_quizzes": [],
         "correct_count": 0,
-        "total": 0
+        "total": 0,
+        "draft": null
     }
 }
