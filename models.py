@@ -1,7 +1,9 @@
+import uuid
+
 class Quiz:
     # Quiz 객체 초기화   
-    def __init__(self, quiz_id, question, choices, answer, hint=None):
-        self.id = quiz_id   # 문제 고유 ID (int)
+    def __init__(self, question, choices, answer, hint=None, quiz_id=None):
+        self.id = quiz_id if quiz_id else str(uuid.uuid4())    # 문제 고유 ID (str)
         self.question = question    # 문제 내용 (str)
         self.choices = choices  # 4개의 선택지 (list of str)
         self.answer = answer    # 정답 번호 1~4 (int)
