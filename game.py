@@ -60,6 +60,7 @@ class QuizGame:
         
         # 결과 출력
         self.display_result(correct_count, total)
+        self.save_state()
 
     # 게임 결과 출력
     def display_result(self, correct_count, total):
@@ -67,6 +68,13 @@ class QuizGame:
         
         print("\n" + "=" * 40)
         print(f"🏆 결과: {total}문제 중 {correct_count}문제 정답! ({score}점)")
+
+        # 최고 점수 갱신
+        if score > self.best_score:
+            self.best_score = score
+            print(f"🎉 새로운 최고 점수! {score}점")
+        else:
+            print(f"📊 현재 최고 점수: {self.best_score}점")
         print("=" * 40)
 
     # 퀴즈 추가
@@ -111,7 +119,7 @@ class QuizGame:
         print(f"\n퀴즈가 추가되었습니다! (현재 총 {len(self.quizzes)}개)")
 
 
-    #
+    # 게임 상태 저장 (최고 점수, 퀴즈 목록)
     def save_state(self):
         state = {
             "best_score": self.best_score,
