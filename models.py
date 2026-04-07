@@ -33,15 +33,36 @@ class Quiz:
     @classmethod
     def from_dict(cls, data):
         quiz_id=data.get("id")
-        if quiz_id is None:
-            raise ValueError("퀴즈 ID가 없습니다.")
+        question = data.get("question")
+        choices = data.get("choices")
+        answer = data.get("answer")
+        hint = data.get("hint")
+
+        # 데이터 유효성 검사
+        if None in [quiz_id, question, choices, answer, hint]:
+            raise ValueError("필수 데이터 키가 누락되었습니다.")
+        
+        if not isinstance(quiz_id, str) or not quiz_id.strip():
+            raise ValueError("ID는 비어있을 수 없는 문자열이어야 합니다.")
+
+        if not isinstance(question, str) or not question.strip():
+            raise ValueError("문제는 비어있을 수 없는 문자열이어야 합니다.")
+
+        if not isinstance(choices, list) or len(choices) != 4:
+            raise ValueError("선택지는 반드시 4개여야 합니다.")
+        
+        if any(not str(c).strip() for c in choices):
+            raise ValueError("비어있는 선택지가 포함되어 있습니다.")
+        
+        if not isinstance(answer, int) or not (1 <= answer <= 4):
+            raise ValueError("정답 번호는 1~4 사이의 숫자여야 합니다.")
         
         return cls(
             quiz_id=quiz_id,
             question=data["question"],
             choices=data["choices"],
             answer=data["answer"],
-            hint=data.get("hint"),
+            hint=hint if hint else ""
         )
 
     #  데이터 저장하기(Quiz 객체를 JSON 데이터로 변환)
