@@ -8,7 +8,7 @@ def main():
     game.quizzes = DEFAULT_QUIZZES
 
     # 퀴즈 풀기
-    game.play_quiz()
+    game.show_menu()
 
 if __name__ == "__main__":
     try:

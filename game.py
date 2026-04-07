@@ -11,6 +11,27 @@ class QuizGame:
 
 
     # ==================== 게임 진행 ====================
+    # 메인 메뉴 출력 및 선택
+    def show_menu(self):
+        while True:
+            print("\n" + "=" * 40)
+            print("       🧠 심리학 퀴즈 게임")
+            print("=" * 40)
+            print("1. 퀴즈 풀기")
+            print("2. 퀴즈 추가")
+            print("3. 종료")
+            print("=" * 40)
+
+            choice = get_int_input("메뉴 선택: ", 1, 3)
+
+            if choice == 1:
+                self.play_quiz()
+            elif choice == 2:
+                self.add_quiz()
+            elif choice == 3:
+                print("\n👋 게임을 종료합니다.")
+                break
+
     # 퀴즈 풀기
     def play_quiz(self):
         if not self.quizzes:
