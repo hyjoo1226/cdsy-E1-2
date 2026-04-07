@@ -27,18 +27,42 @@ class QuizGame:
             print("=" * 40)
             print("1. 퀴즈 풀기")
             print("2. 퀴즈 추가")
-            print("3. 종료")
+            print("3. 퀴즈 목록")
+            print("4. 종료")
             print("=" * 40)
 
-            choice = get_int_input("메뉴 선택: ", 1, 3)
+            choice = get_int_input("메뉴 선택: ", 1, 4)
 
             if choice == 1:
                 self.play_quiz()
             elif choice == 2:
                 self.add_quiz()
             elif choice == 3:
+                self.list_quizzes()
+            elif choice == 4:
                 print("\n👋 게임을 종료합니다.")
                 break
+
+    # 퀴즈 목록 보기
+    def list_quizzes(self):
+        print("\n[ 📚 저장된 퀴즈 목록 ]")
+        print("=" * 40)
+
+        # 퀴즈가 없는 경우
+        if not self.quizzes:
+            print("⚠️ 등록된 퀴즈가 없습니다. 먼저 퀴즈를 추가해주세요.")
+            print("=" * 40)
+            return
+
+        # 퀴즈 목록 출력
+        for i, quiz in enumerate(self.quizzes, 1):
+            print(f"{i}. {quiz.question}")
+        
+        print("-" * 40)
+        print(f"총 {len(self.quizzes)}개의 문제가 등록되어 있습니다.")
+        print("=" * 40)
+        
+        input("\n계속하려면 Enter를 누르세요...")
 
     # 퀴즈 풀기
     def play_quiz(self):
