@@ -106,5 +106,8 @@ python main.py
 ### 추가 제출
 <img width="1241" height="1329" alt="vscode" src="https://github.com/user-attachments/assets/8126f667-4928-49f8-8887-b45e1dafd8f3" />
 <img width="739" height="271" alt="gitlog" src="https://github.com/user-attachments/assets/daa1e8a4-397d-4921-a0e0-0b805a602bfa" />
-git 저장소 복제 실습
 
+<br>
+
+[git 저장소 복제 실습]
+![Git 클론 및 풀 화면](./docs/screenshots/git_clone_pull.png)
