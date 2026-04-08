@@ -262,8 +262,25 @@ class QuizGame:
             "current_session": self.current_session
         }
         
-        with open("state.json", "w", encoding="utf-8") as f:
-            json.dump(state, f, ensure_ascii=False, indent=4)
+        temp_file = "state.json.tmp"
+        target_file = "state.json"
+
+        try:
+            # 1. 임시 파일에 먼저 기록
+            with open(temp_file, "w", encoding="utf-8") as f:
+                json.dump(state, f, ensure_ascii=False, indent=4)
+            
+            # 2. 쓰기가 완벽히 끝나면 기존 파일에 덮어쓰기
+            os.replace(temp_file, target_file)
+
+        except (Exception, OSError, PermissionError) as e:
+            print(f"❌ 데이터 저장 실패: {e}")
+            # 임시 파일이 남아있다면 삭제
+            try:
+                if os.path.exists(temp_file):
+                    os.remove(temp_file)
+            except:
+                pass
 
     # 게임 상태 불러오기
     def load_state(self):
