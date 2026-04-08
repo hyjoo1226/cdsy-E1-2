@@ -1,5 +1,5 @@
 {
-    "best_score": 20,
+    "best_score": 100,
     "quizzes": [
         {
             "id": "3b3a9c28-9da4-481d-8ca9-df793dc45500",
@@ -98,6 +98,42 @@
             "total": 6,
             "correct": 1,
             "score": 16
+        },
+        {
+            "date": "2026-04-08 12:47",
+            "total": 1,
+            "correct": 1,
+            "score": 100
+        },
+        {
+            "date": "2026-04-08 12:48",
+            "total": 4,
+            "correct": 2,
+            "score": 50
+        },
+        {
+            "date": "2026-04-08 12:48",
+            "total": 2,
+            "correct": 0,
+            "score": 0
+        },
+        {
+            "date": "2026-04-08 12:50",
+            "total": 3,
+            "correct": 1,
+            "score": 33
+        },
+        {
+            "date": "2026-04-08 12:50",
+            "total": 2,
+            "correct": 2,
+            "score": 100
+        },
+        {
+            "date": "2026-04-08 12:51",
+            "total": 2,
+            "correct": 0,
+            "score": 0
         }
     ],
     "current_session": {

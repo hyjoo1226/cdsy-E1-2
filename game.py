@@ -63,6 +63,7 @@ class QuizGame:
             target_quizzes = [q for q in self.quizzes if q.id in remaining_ids]
             total = self.current_session["total"]
             correct_count = self.current_session["correct_count"]
+
         else:
             print("\n[ 🎲 출제 방식 선택 ]")
             print("1. 등록순 풀기")
@@ -76,14 +77,20 @@ class QuizGame:
             else:
                 print("📋 등록된 순서대로 시작합니다.")
 
-            total = len(self.quizzes)
+            # 문제 수 선택
+            max_quizzes = len(target_quizzes)
+            print(f"\n[ 📝 문제 수 선택 ] (최대 {max_quizzes}문제)")
+            num_to_solve = get_int_input(f"몇 문제를 푸시겠습니까? (1~{max_quizzes}): ", 1, max_quizzes)
+            target_quizzes = target_quizzes[:num_to_solve]
+
+            total = num_to_solve
             correct_count = 0
             
             # 세션 초기화
             self.current_session["total"] = total
             self.current_session["correct_count"] = 0
-            self.current_session["remaining_quizzes"] = [quiz.id for quiz in self.quizzes]
-            print(f"\n📝 퀴즈를 시작합니다! (총 {total}문제)")
+            self.current_session["remaining_quizzes"] = [quiz.id for quiz in target_quizzes]
+            print(f"\n🚀 퀴즈를 시작합니다! (총 {total}문제 중 {num_to_solve}문제 선택)")
 
         print("=" * 40)
         
