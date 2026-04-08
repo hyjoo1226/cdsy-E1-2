@@ -112,3 +112,6 @@ python main.py
 [git 저장소 복제 실습]
 ![Git 클론 및 풀 화면](./docs/screenshots/git_clone_pull.png)
 기존 병합 기록이 fast forward 동작으로 안보여서 다시 실습합니다.
+<img width="771" height="256" alt="스크린샷 2026-04-08 오후 3 13 58" src="https://github.com/user-attachments/assets/1900052c-6641-4a28-a44f-2846bd352a18" />
+<img width="753" height="352" alt="스크린샷 2026-04-08 오후 3 14 59" src="https://github.com/user-attachments/assets/99af79fd-71cd-495b-a87a-88a3f5db5c33" />
+
