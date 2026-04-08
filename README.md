@@ -61,7 +61,8 @@ python main.py
  ┣ 📜 quiz_data.py  # 초기 기본 심리학 퀴즈 데이터 모음
  ┣ 📜 utils.py      # 공통 유틸리티 함수 (안전한 정수 입력 검증 등)
  ┣ 📜 state.json    # 사용자 데이터가 저장되는 로컬 JSON 파일 (게임 시 자동 생성)
- ┗ 📜 README.md     # 프로젝트 설명 문서
+ ┣ 📜 README.md     # 프로젝트 설명 문서
+ ┗ 📜 .gitignore    # git 추적 무시 설정 파일
 ```
 <br>
 
