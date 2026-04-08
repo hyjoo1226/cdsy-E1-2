@@ -2,13 +2,15 @@ import json
 import os
 from models import Quiz
 from utils import get_int_input
+from datetime import datetime
 
 class QuizGame:
     # QuizGame 객체 초기화
     def __init__(self):
         self.quizzes = []          # Quiz 객체 리스트
         self.best_score = 0        # 최고 점수
-
+        self.history = []           # 게임 플레이 기록
+        
         # 퀴즈 진행 상황
         self.current_session = {
             "remaining_quizzes": [],  # 아직 안 푼 퀴즈 ID 목록
@@ -28,10 +30,11 @@ class QuizGame:
             print("1. 퀴즈 풀기")
             print("2. 퀴즈 추가")
             print("3. 퀴즈 목록")
-            print("4. 종료")
+            print("4. 최고 점수 및 기록 확인")
+            print("5. 종료")
             print("=" * 40)
 
-            choice = get_int_input("메뉴 선택: ", 1, 4)
+            choice = get_int_input("메뉴 선택: ", 1, 5)
 
             if choice == 1:
                 self.play_quiz()
@@ -40,29 +43,10 @@ class QuizGame:
             elif choice == 3:
                 self.list_quizzes()
             elif choice == 4:
+                self.show_history()
+            elif choice == 5:
                 print("\n👋 게임을 종료합니다.")
                 break
-
-    # 퀴즈 목록 보기
-    def list_quizzes(self):
-        print("\n[ 📚 저장된 퀴즈 목록 ]")
-        print("=" * 40)
-
-        # 퀴즈가 없는 경우
-        if not self.quizzes:
-            print("⚠️ 등록된 퀴즈가 없습니다. 먼저 퀴즈를 추가해주세요.")
-            print("=" * 40)
-            return
-
-        # 퀴즈 목록 출력
-        for i, quiz in enumerate(self.quizzes, 1):
-            print(f"{i}. {quiz.question}")
-        
-        print("-" * 40)
-        print(f"총 {len(self.quizzes)}개의 문제가 등록되어 있습니다.")
-        print("=" * 40)
-        
-        input("\n계속하려면 Enter를 누르세요...")
 
     # 퀴즈 풀기
     def play_quiz(self):
@@ -122,6 +106,17 @@ class QuizGame:
     # 게임 결과 출력
     def display_result(self, correct_count, total):
         score = int((correct_count / total) * 100)
+
+        now_time = datetime.now().strftime("%Y-%m-%d %H:%M")    # 현재 시간
+        # 히스토리 객체 생성 및 추가
+        record = {
+            "date": now_time,
+            "total": total,
+            "correct": correct_count,
+            "score": score
+        }
+        self.history.append(record) # 기록 저장
+
         
         print("\n" + "=" * 40)
         print(f"🏆 결과: {total}문제 중 {correct_count}문제 정답! ({score}점)")
@@ -216,12 +211,54 @@ class QuizGame:
             print(f"⚠️ 퀴즈 생성 중 오류 발생: {e}")
 
 
+    # 퀴즈 목록 보기
+    def list_quizzes(self):
+        print("\n[ 📚 저장된 퀴즈 목록 ]")
+        print("=" * 40)
+
+        # 퀴즈가 없는 경우
+        if not self.quizzes:
+            print("⚠️ 등록된 퀴즈가 없습니다. 먼저 퀴즈를 추가해주세요.")
+            print("=" * 40)
+            return
+
+        # 퀴즈 목록 출력
+        for i, quiz in enumerate(self.quizzes, 1):
+            print(f"{i}. {quiz.question}")
+        
+        print("-" * 40)
+        print(f"총 {len(self.quizzes)}개의 문제가 등록되어 있습니다.")
+        print("=" * 40)
+        
+        input("\n계속하려면 Enter를 누르세요...")
+
+    # 최고 점수 및 기록 확인
+    def show_history(self):
+        print("\n[ 📊 퀴즈 도전 기록 ]")
+        print("=" * 50)
+        print(f"⭐ 현재 최고 점수: {self.best_score}점")
+        print("-" * 50)
+
+        if not self.history:
+            print("아직 도전 기록이 없습니다.")
+        else:
+            print(f"{'일시':<16} | {'문제수':<2} | {'정답':<1} | {'점수':<2}")
+            print("-" * 50)
+            for rec in reversed(self.history):
+                print(f"{rec['date']:<18} | {rec['total']:^6} | {rec['correct']:^4} | {rec['score']:>3}점")
+
+        print("=" * 50)
+        input("\n계속하려면 Enter를 누르세요...")
+
+
+
     # ==================== 파일 관리 ====================
     # 게임 상태 저장 (최고 점수, 퀴즈 목록, 현재 진행 상황)
     def save_state(self):
         state = {
             "best_score": self.best_score,
             "quizzes": [quiz.to_dict() for quiz in self.quizzes],
+            "history": self.history,
             "current_session": self.current_session
         }
         
@@ -272,7 +309,13 @@ class QuizGame:
             print("⚠️ 최고 점수 데이터 손상 → 0점으로 초기화합니다.")
             self.best_score = 0
 
-        # 6. 현재 진행 상황 복구
+        # 6. 점수 기록 히스토리 복구
+        self.history = state.get("history", [])
+        if not isinstance(self.history, list):
+            print("⚠️ 히스토리 데이터 형식이 잘못되어 초기화합니다.")
+            self.history = []
+
+        # 7. 현재 진행 상황 복구
         session = state.get("current_session", {})
         valid_remaining = [] # 최종적으로 이어서 풀 목록
 
@@ -308,7 +351,7 @@ class QuizGame:
             self.reset_session(save=True)
             valid_remaining = []
 
-        # 7. 이어하기 확인
+        # 8. 이어하기 확인
         if valid_remaining:
             print(f"✅ 로드 완료! (퀴즈 {len(self.quizzes)}개, 최고점수 {self.best_score}점)")
             print(f"⚠️ 이전에 중단된 퀴즈가 있어요! ({len(valid_remaining)}문제 남음)")
