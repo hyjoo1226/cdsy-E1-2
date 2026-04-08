@@ -31,11 +31,12 @@ class QuizGame:
             print("1. 퀴즈 풀기")
             print("2. 퀴즈 추가")
             print("3. 퀴즈 목록")
-            print("4. 최고 점수 및 기록 확인")
-            print("5. 종료")
+            print("4. 퀴즈 삭제")
+            print("5. 기록 및 점수")
+            print("6. 종료")
             print("=" * 40)
 
-            choice = get_int_input("메뉴 선택: ", 1, 5)
+            choice = get_int_input("메뉴 선택: ", 1, 6)
 
             if choice == 1:
                 self.play_quiz()
@@ -44,8 +45,10 @@ class QuizGame:
             elif choice == 3:
                 self.list_quizzes()
             elif choice == 4:
-                self.show_history()
+                self.delete_quiz()
             elif choice == 5:
+                self.show_history()
+            elif choice == 6:
                 print("\n👋 게임을 종료합니다.")
                 break
 
@@ -290,7 +293,36 @@ class QuizGame:
         print("=" * 50)
         input("\n계속하려면 Enter를 누르세요...")
 
+    # 퀴즈 삭제 기능
+    def delete_quiz(self):
+        print("\n[ 🗑️ 퀴즈 삭제 ]")
+        print("=" * 40)
 
+        if not self.quizzes:
+            print("⚠️ 삭제할 퀴즈가 없습니다.")
+            return
+
+        # 현재 목록 출력
+        for i, quiz in enumerate(self.quizzes, 1):
+            print(f"{i}. {quiz.question}")
+        
+        print("-" * 40)
+        print("0. 취소 (메인 메뉴로)")
+
+        # 삭제할 번호 선택
+        choice = get_int_input(f"삭제할 퀴즈 번호를 입력하세요 (0~{len(self.quizzes)}): ", 0, len(self.quizzes))
+
+        if choice == 0:
+            print("❌ 삭제가 취소되었습니다.")
+            return
+
+        # 삭제 후 저장
+        target_index = choice - 1
+        deleted_quiz = self.quizzes.pop(target_index)
+
+        self.save_state()
+        print(f"\n✅ 삭제 완료: \"{deleted_quiz.question}\"")
+        print(f"현재 남은 퀴즈: {len(self.quizzes)}개")
 
     # ==================== 파일 관리 ====================
     # 게임 상태 저장 (최고 점수, 퀴즈 목록, 현재 진행 상황)
