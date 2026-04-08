@@ -134,6 +134,36 @@
             "total": 2,
             "correct": 0,
             "score": 0
+        },
+        {
+            "date": "2026-04-08 12:51",
+            "total": 4,
+            "correct": 1,
+            "score": 25
+        },
+        {
+            "date": "2026-04-08 12:58",
+            "total": 3,
+            "correct": 0.5,
+            "score": 16
+        },
+        {
+            "date": "2026-04-08 13:12",
+            "total": 3,
+            "correct": 0,
+            "score": 0
+        },
+        {
+            "date": "2026-04-08 13:13",
+            "total": 5,
+            "correct": 4,
+            "score": 70
+        },
+        {
+            "date": "2026-04-08 13:13",
+            "total": 3,
+            "correct": 3,
+            "score": 50
         }
     ],
     "current_session": {

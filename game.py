@@ -84,7 +84,8 @@ class QuizGame:
             target_quizzes = target_quizzes[:num_to_solve]
 
             total = num_to_solve
-            correct_count = 0
+            score_points = 0.0  # 실제 계산용 점수 (0.5점 포함)
+            correct_count = 0   # 맞힌 문제 수
             
             # 세션 초기화
             self.current_session["total"] = total
@@ -98,20 +99,37 @@ class QuizGame:
         for quiz in target_quizzes:
             # 문제 출력
             current_index = total - len(self.current_session["remaining_quizzes"]) + 1
-            quiz.display_quiz(current_index)
-            
-            # 사용자 입력 예외처리
-            user_input = get_int_input("\n정답 입력 (1~4): ", 1, 4)
+            hint_used = False # 힌트 사용 여부
+
+            while True:
+                quiz.display_quiz(current_index)
+                print("\n💡 힌트가 필요하면 '0'을 입력하세요. (사용 시 획득 점수 감점)")
+                user_input = get_int_input("정답 입력 (1~4, 힌트 0): ", 0, 4)
+
+                if user_input == 0:
+                    if not hint_used:
+                        quiz.display_hint()
+                        hint_used = True
+                    else:
+                        print("⚠️ 이미 힌트를 사용했습니다!")
+                    continue
+                else:
+                    break
             
             # 정답 확인
             if quiz.is_correct(user_input):
-                print("✅ 정답입니다!")
                 correct_count += 1
+                if hint_used:
+                    print("✅ 정답입니다! (힌트 사용으로 50% 점수만 획득)")
+                    score_points += 0.5
+                else:
+                    print("✅ 정답입니다!")
+                    score_points += 1
             else:
                 print(f"❌ 틀렸습니다. 정답은 {quiz.answer}번입니다.")
 
             # 진행 상황 업데이트
-            self.current_session["correct_count"] = correct_count
+            self.current_session["correct_count"] = score_points
             self.current_session["remaining_quizzes"].remove(quiz.id)
             self.save_state()
         
@@ -119,12 +137,12 @@ class QuizGame:
         self.reset_session()
 
         # 결과 출력 및 저장
-        self.display_result(correct_count, total)
+        self.display_result(correct_count, score_points, total)
         self.save_state()
 
     # 게임 결과 출력
-    def display_result(self, correct_count, total):
-        score = int((correct_count / total) * 100)
+    def display_result(self, correct_count, score_points, total):
+        score = int((score_points / total) * 100)
 
         now_time = datetime.now().strftime("%Y-%m-%d %H:%M")    # 현재 시간
         # 히스토리 객체 생성 및 추가
@@ -137,13 +155,16 @@ class QuizGame:
         self.history.append(record) # 기록 저장
 
         
+        final_score = int((score_points / total) * 100)
+        
         print("\n" + "=" * 40)
-        print(f"🏆 결과: {total}문제 중 {correct_count}문제 정답! ({score}점)")
+        print(f"📊 통계: {total}문제 중 {correct_count}문제를 맞혔습니다!")
+        print(f"🏆 최종 점수: {final_score}점 (힌트 사용 감점 반영)")
 
         # 최고 점수 갱신
-        if score > self.best_score:
-            self.best_score = score
-            print(f"🎉 새로운 최고 점수! {score}점")
+        if final_score > self.best_score:
+            self.best_score = final_score
+            print(f"🎉 새로운 최고 점수! {final_score}점")
         else:
             print(f"📊 현재 최고 점수: {self.best_score}점")
         print("=" * 40)
