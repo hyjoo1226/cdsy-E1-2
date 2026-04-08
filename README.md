@@ -111,3 +111,4 @@ python main.py
 
 [git 저장소 복제 실습]
 ![Git 클론 및 풀 화면](./docs/screenshots/git_clone_pull.png)
+기존 병합 기록이 fast forward 동작으로 안보여서 다시 실습합니다.
