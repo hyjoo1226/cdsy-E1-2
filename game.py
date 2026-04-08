@@ -1,8 +1,9 @@
 import json
 import os
+from datetime import datetime
+import random
 from models import Quiz
 from utils import get_int_input
-from datetime import datetime
 
 class QuizGame:
     # QuizGame 객체 초기화
@@ -63,7 +64,18 @@ class QuizGame:
             total = self.current_session["total"]
             correct_count = self.current_session["correct_count"]
         else:
-            target_quizzes = self.quizzes
+            print("\n[ 🎲 출제 방식 선택 ]")
+            print("1. 등록순 풀기")
+            print("2. 랜덤 풀기")
+            # 게임 모드 선택
+            mode = get_int_input("선택: ", 1, 2)
+            target_quizzes = self.quizzes[:]
+            if mode == 2:
+                random.shuffle(target_quizzes)
+                print("🔀 문제를 무작위로 섞었습니다!")
+            else:
+                print("📋 등록된 순서대로 시작합니다.")
+
             total = len(self.quizzes)
             correct_count = 0
             
