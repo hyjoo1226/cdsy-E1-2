@@ -120,6 +120,7 @@ python main.py
 ```
 git merge [브랜치명] --no-ff
 ```
-<img width="771" height="256" alt="스크린샷 2026-04-08 오후 3 13 58" src="https://github.com/user-attachments/assets/1900052c-6641-4a28-a44f-2846bd352a18" />
-<img width="753" height="352" alt="스크린샷 2026-04-08 오후 3 14 59" src="https://github.com/user-attachments/assets/99af79fd-71cd-495b-a87a-88a3f5db5c33" />
+<img width="923" height="351" alt="스크린샷 2026-04-09 오후 12 45 38" src="https://github.com/user-attachments/assets/3a94a5d0-b61e-4348-9017-04702479c720" />
+<img width="923" height="465" alt="스크린샷 2026-04-09 오후 12 46 19" src="https://github.com/user-attachments/assets/d152dab7-a868-480a-abb2-bc032c93d097" />
+
 
