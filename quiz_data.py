@@ -32,15 +32,3 @@ DEFAULT_QUIZZES = [
         hint="예: 전쟁에서 살아남은 군인들의 특징만 분석하여 방어 전략을 세우는 경우"
     )
 ]
-
-# 기본 퀴즈 목록을 새 Quiz 객체로 반환
-def get_default_quizzes():
-    return [
-        Quiz(
-            question=quiz.question,
-            choices=quiz.choices[:],
-            answer=quiz.answer,
-            hint=quiz.hint
-        )
-        for quiz in DEFAULT_QUIZZES
-    ]
