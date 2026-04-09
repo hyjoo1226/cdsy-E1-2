@@ -16,6 +16,7 @@ class QuizGame:
         self.current_session = {
             "remaining_quizzes": [],  # 아직 안 푼 퀴즈 ID 목록
             "correct_count": 0,       # 현재까지 맞춘 개수
+            "score_points": 0.0,      # 실제 계산용 점수 (힌트 사용 감점 반영)
             "total": 0,                # 전체 문제 수
             "draft": None              # 퀴즈 추가 중 입력 임시 저장
         }
@@ -66,6 +67,7 @@ class QuizGame:
             target_quizzes = [q for q in self.quizzes if q.id in remaining_ids]
             total = self.current_session["total"]
             correct_count = self.current_session["correct_count"]
+            score_points = self.current_session.get("score_points", 0.0)
 
         else:
             print("\n[ 🎲 출제 방식 선택 ]")
@@ -93,6 +95,7 @@ class QuizGame:
             # 세션 초기화
             self.current_session["total"] = total
             self.current_session["correct_count"] = 0
+            self.current_session["score_points"] = 0.0
             self.current_session["remaining_quizzes"] = [quiz.id for quiz in target_quizzes]
             print(f"\n🚀 퀴즈를 시작합니다! (총 {total}문제 중 {num_to_solve}문제 선택)")
 
@@ -132,7 +135,8 @@ class QuizGame:
                 print(f"❌ 틀렸습니다. 정답은 {quiz.answer}번입니다.")
 
             # 진행 상황 업데이트
-            self.current_session["correct_count"] = score_points
+            self.current_session["correct_count"] = correct_count
+            self.current_session["score_points"] = score_points
             self.current_session["remaining_quizzes"].remove(quiz.id)
             self.save_state()
         
@@ -411,6 +415,7 @@ class QuizGame:
         try:
             remaining = session.get("remaining_quizzes", [])
             correct_count = int(session.get("correct_count", 0))
+            score_points = float(session.get("score_points", 0.0))
             total = int(session.get("total", 0))
 
             # 퀴즈 ID 유효성 검사
@@ -431,6 +436,7 @@ class QuizGame:
                 self.current_session = {
                     "remaining_quizzes": valid_remaining,
                     "correct_count": correct_count,
+                    "score_points": score_points,
                     "total": total,
                     "draft": session.get("draft")
                 }
@@ -469,6 +475,7 @@ class QuizGame:
         self.current_session = {
             "remaining_quizzes": [],
             "correct_count": 0,
+            "score_points": 0.0,
             "total": 0,
             "draft": None
         }
