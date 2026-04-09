@@ -111,7 +111,15 @@ python main.py
 
 [git 저장소 복제 실습]
 ![Git 클론 및 풀 화면](./docs/screenshots/git_clone_pull.png)
+
+<br>
 기존 병합 기록이 fast forward 동작으로 안보여서 다시 실습합니다.
+
+- merge를 할 때 main 브랜치에 새로운 커밋이 없고 feat 브랜치만 앞으로 나아간 상태라면, 굳이 복잡하게 갈래를 만들지 않고 main 브랜치가 feat 브랜치의 최종 커밋을 가리키도록 동작
+
+```
+git merge [브랜치명] --no-ff
+```
 <img width="771" height="256" alt="스크린샷 2026-04-08 오후 3 13 58" src="https://github.com/user-attachments/assets/1900052c-6641-4a28-a44f-2846bd352a18" />
 <img width="753" height="352" alt="스크린샷 2026-04-08 오후 3 14 59" src="https://github.com/user-attachments/assets/99af79fd-71cd-495b-a87a-88a3f5db5c33" />
 
