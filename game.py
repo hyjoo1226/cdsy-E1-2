@@ -196,7 +196,7 @@ class QuizGame:
             if choice == 'n':
                 self.current_session["draft"] = None
                 self.save_state()
-                draft = None
+                return
 
         if draft is None:
             draft = {"question": "", "choices": [], "answer": 0, "hint": None }
